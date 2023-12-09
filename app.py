@@ -6,8 +6,14 @@ import pickle
 # Create flask app
 flask_app = Flask(__name__)
 
+current_dir = os.path.dirname(__file__)
+
+# Construct the path to the model file
+model_file_path = os.path.join(current_dir, "appdev2.pkl")
+
 # Load model (Heroku's filesystem is read-only, so we'll use 'get' to safely access the environment variable)
-model = pickle.load(open(os.getenv("MODEL_FILE"), "rb"))
+with open(model_file_path, "rb") as file:
+    model = pickle.load(file)
 
 @flask_app.route("/")
 def home():
